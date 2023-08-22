@@ -1,9 +1,8 @@
 package classeMetier;
 
-public class Utilisateur {
+public abstract class Utilisateur {
     private String nom;
     private String prenom;
-    private String mail;
     private TypeUtilisateur typeUtilisateur;
 
     public String getNom() {
@@ -14,13 +13,7 @@ public class Utilisateur {
         this.nom = nom;
     }
 
-    public String getMail() {
-        return mail;
-    }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 
     public TypeUtilisateur getTypeUtilisateur() {
         return typeUtilisateur;
@@ -38,10 +31,9 @@ public class Utilisateur {
         this.prenom = prenom;
     }
 
-    public Utilisateur(String nom, String prenom, String mail, TypeUtilisateur typeUtilisateur) {
+    public Utilisateur(String nom, String prenom, TypeUtilisateur typeUtilisateur) {
         this.nom = nom;
         this.prenom = prenom;
-        this.mail = mail;
         this.typeUtilisateur = typeUtilisateur;
     }
 
@@ -50,7 +42,6 @@ public class Utilisateur {
         return "Utilisateur: " +
                 "nom: " + nom +
                 ", prenom: " + prenom +
-                ", mail: " + mail +
                 ", " + typeUtilisateur
                 ;
     }

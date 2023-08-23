@@ -46,15 +46,13 @@ public class Connexion extends JFrame {
                 if (option == 1) // pressing OK button
                 {
                     char[] password = pass.getPassword();
-                    System.out.println("Your password is: " + new String(password));
-
-                for (Gestionnaire i : listGest) {
-                    if (i.getPassword().equals(new String(password))) {
-                        JOptionPane.showMessageDialog(null, i.toString());
-                        setVisible(false);
-                        Menu m = new Menu();
+                    for (Gestionnaire i : listGest) {
+                        if (i.getPassword().equals(new String(password))) {
+                            JOptionPane.showMessageDialog(null, i.toString());
+                            setVisible(false);
+                            Menu m = new Menu();
+                        }
                     }
-                }
                 }
             }
         });

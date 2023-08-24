@@ -1,8 +1,6 @@
 package frame;
 
-import classeMetier.Gestionnaire;
-import classeMetier.TypeUtilisateur;
-import classeMetier.Utilisateur;
+import classeMetier.personne.Gestionnaire;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

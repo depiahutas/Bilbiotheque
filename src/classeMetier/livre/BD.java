@@ -13,8 +13,8 @@ public class BD extends Livre{
         this.collection = collection;
     }
 
-    public BD(String auteur, String titre,String collection) {
-        super(auteur, titre);
+    public BD(String auteur, String titre,String collection,Boolean dispo) {
+        super(auteur, titre,dispo);
         this.setCollection(collection);
     }
 

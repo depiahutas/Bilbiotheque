@@ -3,9 +3,6 @@ package classeMetier.bibliotheque;
 import classeMetier.livre.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class BibliothequeStock {
     private static ArrayList<Livre> listLivre = new ArrayList<Livre>();
@@ -24,16 +21,16 @@ public class BibliothequeStock {
         return listRoman;
     }
 
-    static Roman roman1 = new Roman("Agatha Christie", "Le crime de l'orient-Express", 1);
-    static Roman roman2 = new Roman("Stephen King", "Shining", 2);
-    static Roman roman3 = new Roman("Jules Verne", "Voyage au centre de la terre", 3);
-    static Roman roman4 = new Roman("Andrzej Sapkowski", "The witcher", 4);
-    static Roman roman5 = new Roman("Barbey d'Aurevilly", "Les Diaboliques", 5);
+    static Roman roman1 = new Roman("Agatha Christie", "Le crime de l'orient-Express", 1,true);
+    static Roman roman2 = new Roman("Stephen King", "Shining", 2,true);
+    static Roman roman3 = new Roman("Jules Verne", "Voyage au centre de la terre", 3,true);
+    static Roman roman4 = new Roman("Andrzej Sapkowski", "The witcher", 4,true);
+    static Roman roman5 = new Roman("Barbey d'Aurevilly", "Les Diaboliques", 5,true);
 
-    static BD bd1=new BD("Patrick Sobral","Tome 1 : La pierre de Jovénia ","Les légendaires");
-    static BD bd2=new BD("Jean-Claude Fournier","Tome 1 : Quatre aventures de Spirou et Fantasio","Spirou et Fantasio");
-    static BD bd3=new BD("René Goscinny","Tome 1 : Astérix le Gaulois","Astérix");
-    static BD bd4=new BD("Zep","Tome 1 : Dieu, le sexe et les bretelles","Titeuf");
+    static BD bd1=new BD("Patrick Sobral","Tome 1 : La pierre de Jovénia ","Les légendaires",true);
+    static BD bd2=new BD("Jean-Claude Fournier","Tome 1 : Quatre aventures de Spirou et Fantasio","Spirou et Fantasio",true);
+    static BD bd3=new BD("René Goscinny","Tome 1 : Astérix le Gaulois","Astérix",true);
+    static BD bd4=new BD("Zep","Tome 1 : Dieu, le sexe et les bretelles","Titeuf",true);
 
 
     public BibliothequeStock() {

@@ -1,4 +1,4 @@
-package classeMetier.bibliotheque;
+package classeMetier.livre;
 
 import classeMetier.livre.Livre;
 
@@ -13,8 +13,8 @@ public class Roman extends Livre {
         this.ISBN = ISBN;
     }
 
-    public Roman(String auteur, String titre, int isbn) {
-        super(auteur, titre);
+    public Roman(String auteur, String titre, int isbn,Boolean dispo) {
+        super(auteur, titre, dispo);
         setISBN(isbn);
     }
 

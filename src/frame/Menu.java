@@ -2,17 +2,24 @@ package frame;
 
 import classeMetier.bibliotheque.*;
 import classeMetier.livre.BD;
+import classeMetier.livre.Livre;
+import classeMetier.livre.Roman;
+import classeMetier.personne.Client;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static classeMetier.util.Input.VerifMail;
+import static classeMetier.util.Input.VerifStringNoInt;
 
 public class Menu extends JFrame{
 
     private JPanel formBiblio;
     private JPanel FormEmprunt;
-    private JTextField textField1;
+    private JTextField AreaNom;
     private JComboBox Typecbx;
     private JLabel typeLivre;
     private JComboBox TitreCbx;
@@ -24,6 +31,18 @@ public class Menu extends JFrame{
     private JTextField AreaISBN;
     private JButton BtnValider;
     private JLabel ErreurTitre;
+    private JTextField AreaPrenom;
+    private JTextField AreaMail;
+    private JLabel ErreurNom;
+    private JLabel ErreurPrenom;
+    private JLabel ErreurMail;
+    private JLabel ErreurDispo;
+    private JPanel FormRecherche;
+    private JPanel FormAjout;
+    private JPanel FormListEmprunt;
+    private JTable TableLivre;
+    private JTextArea textArea1;
+    private JComboBox comboBox1;
     private JPanel panelTest;
 
     Menu(){
@@ -71,6 +90,10 @@ public class Menu extends JFrame{
                 AreaAuteur.setText("");
                 AreaTitre.setText("");
                 AreaISBN.setText("");
+                ErreurNom.setVisible(false);
+                ErreurPrenom.setVisible(false);
+                ErreurMail.setVisible(false);
+                ErreurTitre.setVisible(false);
             }
         });
 
@@ -91,7 +114,25 @@ public class Menu extends JFrame{
         recherchebtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"recherche");
+
+                setContentPane(FormRecherche);
+
+
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("Auteur");
+                model.addColumn("Titre");
+                model.addColumn("Collection/ISBN");
+                model.addColumn("Dispo");
+
+                TableLivre.setModel(model);
+
+                DefaultTableModel model1=(DefaultTableModel) TableLivre.getModel();
+
+                for (BD bd : Bibliotheque.getListBD()) {
+                    model1.addRow(new Object[]{bd.getAuteur(), bd.getTitre(), bd.getCollection(), bd.getDispo()});
+                }
+                TableLivre.setVisible(true);
+                FormRecherche.add(TableLivre);
             }
         });
 
@@ -155,8 +196,14 @@ public class Menu extends JFrame{
                         ErreurTitre.setVisible(false);
                         for (BD bd : Bibliotheque.getListBD()) {
                             if (bd.getCollection().equalsIgnoreCase(AreaISBN.getText())) {
-                                TitreCbx.addItem(bd.getTitre());
-                                AreaAuteur.setText(bd.getAuteur());
+                                if (bd.getDispo()) {
+                                    TitreCbx.addItem(bd.getTitre());
+                                    ErreurDispo.setVisible(false);
+                                }
+                                else {
+                                    ErreurDispo.setText("Indisponible");
+                                    ErreurDispo.setVisible(true);
+                                }
                             }
                             TitreCbx.setSelectedIndex(-1);
                         }
@@ -169,8 +216,15 @@ public class Menu extends JFrame{
                     } else if (Typecbx.getSelectedItem().equals("Roman")) {
                         for (Roman roman: Bibliotheque.getListRoman()){
                             if (roman.getISBN()==Integer.parseInt(AreaISBN.getText())){
+                                if (roman.getDispo()){
                                 AreaTitre.setText(roman.getTitre());
                                 AreaAuteur.setText(roman.getAuteur());
+                                ErreurDispo.setVisible(false);
+                                }
+                                else {
+                                    ErreurDispo.setText("Indisponible");
+                                    ErreurDispo.setVisible(true);
+                                }
                             }
                         }
                         if(AreaTitre.getText().isEmpty()){
@@ -194,6 +248,82 @@ public class Menu extends JFrame{
         setLayout(null);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
+        BtnValider.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                     try{
+                         //Verification client dans "BDD"/liste des clients
+                         Client client=null;
+                         Livre livre =null;
+                         boolean add=true;
+
+                         if (!VerifStringNoInt(AreaNom.getText()) || AreaNom.getText().isEmpty()) {
+                             ErreurNom.setVisible(true);
+                         } else if (!VerifStringNoInt(AreaPrenom.getText()) || AreaPrenom.getText().isEmpty()) {
+
+                             ErreurNom.setVisible(false);
+                             ErreurPrenom.setVisible(true);
+                         } else if (!VerifMail(AreaMail.getText()) || AreaMail.getText().isEmpty()){
+
+                             ErreurPrenom.setVisible(false);
+                             ErreurMail.setVisible(true);
+                         }
+                         else {
+                             ErreurPrenom.setVisible(false);
+                             ErreurNom.setVisible(false);
+                             ErreurMail.setVisible(false);
+                             System.out.println(VerifMail(AreaMail.getText()));
+
+                             for (Client c : Bibliotheque.getListClient()) {
+                                 if (c.getNom().equals(AreaNom.getText()) && c.getPrenom().equals(AreaPrenom.getText()) && c.getMail().equals(AreaMail.getText())) {
+                                     add = false;
+                                     client = c;
+                                 }
+                             }
+                             if (add) {
+                                 client = new Client(AreaNom.getText(), AreaPrenom.getText(), AreaMail.getText());
+                                 Bibliotheque.getListClient().add(client);
+                             }
+
+                             if (Typecbx.getSelectedItem().equals("BD")) {
+                                 for (BD l : Bibliotheque.getListBD()) {
+                                     if (l.getAuteur().equals(AreaAuteur.getText()) && l.getTitre().equals(TitreCbx.getSelectedItem())) {
+                                         livre = l;
+                                         l.setDispo(false);
+                                     }
+                                 }
+                             } else if (Typecbx.getSelectedItem().equals("Roman")) {
+                                    for (Roman r:Bibliotheque.getListRoman()){
+                                        if (r.getISBN()==Integer.parseInt(AreaISBN.getText())){
+                                            livre=r;
+                                            livre.setDispo(false);
+                                        }
+                                    }
+                             }
+
+                             //Ajout de l'emprunt dans la "BDD"/liste d'emprunt
+                             Bibliotheque.getListEmprunt().add(new Emprunt(client, livre));
+
+                         }
+                     }catch (Exception ignored){
+
+                     }
+                 }
+
+        });
+
+        TitreCbx.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(BD bd: Bibliotheque.getListBD()){
+                    if (bd.getTitre().equals(TitreCbx.getSelectedItem())){
+                        AreaAuteur.setText(bd.getAuteur());
+                    }
+                }
+            }
+        });
 
 
     }

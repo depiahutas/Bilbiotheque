@@ -1,4 +1,4 @@
-package classeMetier;
+package classeMetier.personne;
 
 public abstract class Utilisateur {
     private String nom;

@@ -8,9 +8,10 @@ public abstract class Livre {
     private String titre;
     private Boolean dispo;
 
-    public Livre(String auteur, String titre) {
+    public Livre(String auteur, String titre,Boolean dispo) {
         this.auteur = auteur;
         this.titre = titre;
+        this.dispo=dispo;
     }
 
     public  String getAuteur() {

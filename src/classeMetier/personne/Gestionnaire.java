@@ -1,6 +1,9 @@
-package classeMetier;
+package classeMetier.personne;
 
-public class Gestionnaire extends Utilisateur{
+import classeMetier.personne.TypeUtilisateur;
+import classeMetier.personne.Utilisateur;
+
+public class Gestionnaire extends Utilisateur {
 
 
     public int getMatricule() {

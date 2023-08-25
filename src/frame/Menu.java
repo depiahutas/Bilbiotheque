@@ -119,6 +119,8 @@ public class Menu extends JFrame{
 
 
                 DefaultTableModel model = new DefaultTableModel();
+
+
                 model.addColumn("Auteur");
                 model.addColumn("Titre");
                 model.addColumn("Collection/ISBN");
@@ -127,11 +129,21 @@ public class Menu extends JFrame{
                 TableLivre.setModel(model);
 
                 DefaultTableModel model1=(DefaultTableModel) TableLivre.getModel();
-
+                model1.addRow(new Object[]{"Auteur","Titre","Collection/ISBN","Disponibilité"});
                 for (BD bd : Bibliotheque.getListBD()) {
                     model1.addRow(new Object[]{bd.getAuteur(), bd.getTitre(), bd.getCollection(), bd.getDispo()});
                 }
+
+                for (Roman roman: Bibliotheque.getListRoman()){
+                    model1.addRow(new Object[]{roman.getAuteur(),roman.getTitre(),roman.getISBN(),roman.getDispo()});
+                }
+
+                TableLivre.getColumnModel().getColumn(0).setPreferredWidth(130);
+                TableLivre.getColumnModel().getColumn(1).setPreferredWidth(500);
+                TableLivre.getColumnModel().getColumn(2).setPreferredWidth(175);
+                TableLivre.getColumnModel().getColumn(3).setPreferredWidth(100);
                 TableLivre.setVisible(true);
+                TableLivre.setPreferredSize(new Dimension(500,300));
                 FormRecherche.add(TableLivre);
             }
         });
